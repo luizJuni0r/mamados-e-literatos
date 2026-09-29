@@ -1,0 +1,134 @@
+:root {
+	/* cores padrão*/
+    --text: #e2e2e2;
+    --background: #151515;
+    --primary: #00bbff;
+    --secondary: #b7b7b7;
+    --accent: #3732b1;
+    --surface: #1e1e1e;
+}
+
+body {
+	background: var(--background);
+	color: var(--text);
+	margin: 0;
+
+	min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+header, 
+main {
+	padding: 0 1rem;
+}
+
+header {
+	text-align: center;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+
+header h1 {
+	font-size: 1.5rem;
+	margin: 0;
+	margin-bottom: 0.5rem;
+}
+
+header::after {
+    content: "";
+    display: block;
+    height: 0.15rem;
+    width: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--accent);
+}
+
+
+.em-leitura {
+	padding: 1rem;
+	border: 1px solid var(--accent);
+	border-radius: 0.5rem;
+}
+
+.em-leitura h2 {
+	font-size: 0.75rem;
+	font-weight: bold;
+	color: var(--primary);
+	letter-spacing: 1px;
+}
+
+.em-leitura h3 {
+	font-size: 1.5rem;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.em-leitura .autor {
+	margin-top: 0;
+	font-size: 0.9rem;
+	font-style: italic;
+}
+
+.em-leitura .recomendacao {
+	font-size: 0.9rem;
+}
+
+
+
+
+.historico h2 {
+    font-size: 1.25rem;
+}
+
+table {
+	width: 100%;
+    border-collapse: collapse;
+}
+
+.col-livro {
+    width: 45%;
+}
+
+.col-autor {
+    width: 30%;
+}
+
+.col-recomendacao {
+    width: 25%;
+}
+
+thead {
+	border-bottom: 1px solid var(--accent);
+}
+
+th {
+	padding: 0.5rem;
+	font-size: 0.8rem;
+}
+
+td {
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+
+
+
+
+footer {
+    background-color: var(--surface);
+
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    margin: 0;
+}
