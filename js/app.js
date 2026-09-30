@@ -18,3 +18,9 @@ formRecomendacao.addEventListener("submit", async function (event) {
 
     console.log(resultado);
 });
+
+const { data } = await db.auth.getSession();
+
+if (!data.session) {
+    window.location.href = "login.html";
+}
