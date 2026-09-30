@@ -4,6 +4,7 @@ const nomeLivro = document.getElementById("nome-livro");
 const nomeAutor = document.getElementById("nome-autor");
 const observacoes = document.getElementById("observacoes");
 const formRecomendacao = document.getElementById("form-formulario-recomendacao");
+const iniciarLeitura = document.getElementById("iniciar-leitura");
 
 formRecomendacao.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -36,3 +37,7 @@ const { data: perfil, error: erroPerfil } = await db
 
 console.log(perfil);
 console.log(erroPerfil);
+
+if (perfil.role === "admin") {
+    iniciarLeitura.style.display = "block";
+}
