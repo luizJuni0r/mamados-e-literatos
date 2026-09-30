@@ -95,6 +95,61 @@ header::after {
 
 
 
+
+
+.resultado-sorteio {
+    text-align: center;
+}
+
+.resultado-sorteio h2 {
+    color: var(--primary);
+    font-size: 0.85rem;
+    letter-spacing: 0.15rem;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.resultado-sorteio article {
+    padding: 1.5rem 1rem;
+    background-color: var(--surface);
+    border: 1px solid var(--primary);
+    border-radius: 0.5rem;
+}
+
+.resultado-sorteio h3 {
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+    font-size: 1.4rem;
+}
+
+.resultado-sorteio .autor {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+}
+
+.resultado-sorteio .recomendado {
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+}
+
+.resultado-sorteio .observacao {
+    margin: 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--secondary);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+
+
+
+
+
+
+
+
+
 .form-recomendacao {
     background-color: var(--surface);
     border: 1px solid var(--accent);
@@ -139,6 +194,8 @@ header::after {
     font-weight: bold;
     cursor: pointer;
 }
+
+
 
 
 
