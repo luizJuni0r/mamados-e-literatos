@@ -8,6 +8,11 @@
     --surface: #1e1e1e;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+
 body {
 	background: var(--background);
 	color: var(--text);
@@ -20,6 +25,10 @@ body {
 
 main {
     flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 header, 
@@ -82,8 +91,59 @@ header::after {
 
 
 
+
+.form-recomendacao {
+    background-color: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.form-recomendacao h2 {
+	font-size: 1.25rem;
+	margin-top: 0;
+}
+
+.form-recomendacao form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-recomendacao input,
+.form-recomendacao textarea {
+	width: 100%;
+	padding: 0.75rem;
+
+	background-color: var(--surface);
+	color: var(--text);
+
+	border: 1px solid var(--secondary);
+	border-radius: 0.4rem;
+}
+
+.form-recomendacao textarea {
+    min-height: 6rem;
+    resize: vertical;
+}
+
+.form-recomendacao button {
+    background-color: transparent;
+    color: var(--primary);
+
+    border: 1px solid var(--primary);
+    border-radius: 0.4rem;
+
+    padding: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
 .historico h2 {
     font-size: 1.25rem;
+	margin-top: 0;
 }
 
 table {
