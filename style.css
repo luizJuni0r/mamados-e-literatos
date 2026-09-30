@@ -184,7 +184,7 @@ header::after {
 }
 
 .form-recomendacao form {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 0.5rem;
 }
@@ -216,6 +216,13 @@ header::after {
     cursor: pointer;
 }
 
+#recomendacao-enviada {
+    display: none;
+    color: var(--secondary);
+}
+
+
+
 
 
 
@@ -231,15 +238,19 @@ table {
 }
 
 .col-livro {
-    width: 45%;
+    width: 35%;
 }
 
 .col-autor {
-    width: 30%;
+    width: 25%;
 }
 
 .col-recomendacao {
     width: 25%;
+}
+
+.col-status {
+    width: 15%;
 }
 
 thead {
@@ -247,14 +258,21 @@ thead {
 }
 
 th {
-	padding: 0.5rem;
-	font-size: 0.8rem;
+    padding: 0.4rem 0.25rem;
+    font-size: 0.75rem;
 }
 
 td {
-    padding: 0.5rem;
+    padding: 0.5rem 0.25rem;
     text-align: center;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
+}
+
+th:nth-child(1),
+th:nth-child(2),
+td:nth-child(1),
+td:nth-child(2) {
+    text-align: left;
 }
 
 

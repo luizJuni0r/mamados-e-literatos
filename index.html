@@ -14,16 +14,33 @@
 
 	<main class="app">
 
+
 		<!-- Parte do livro que está sendo lido no momento -->
 		<section class="em-leitura">
-			<h2>EM LEITURA</h2>
+			<h2 id="titulo-leitura">EM LEITURA</h2>
 
 			<article>
-				<h3>As Ondas</h3>
-				<p class="autor">Virginia Woolf</p>
-				<p class="recomendacao">Recomendado por Luiz Junior</p>
+			    <h3 id="leitura-livro">As Ondas</h3>
+			    <p class="autor" id="leitura-autor">Virginia Woolf</p>
+			    <p class="recomendado" id="leitura-recomendado">
+			        Recomendado por Luiz Junior
+			    </p>
 			</article>
+			<div class="acoes-leitura">
+			    <button class="acao-admin" id="concluir-leitura">
+			        Concluir
+			    </button>
+
+			    <button class="acao-admin" id="dropar-leitura">
+			        Dropar
+			    </button>
+
+			    <button class="acao-admin" id="abrir-recomendacoes">
+				    Abrir novas recomendações
+				</button>
+			</div>
 		</section>
+
 
 		<!-- Parte que vc insere o livro que quer aplicar na votação -->
 		<section class="form-recomendacao">
@@ -41,29 +58,36 @@
 
 				<button type="submit">Recomendar</button>
 			</form>
+
+			<p id="recomendacao-enviada">
+			    Sua recomendação já foi enviada.
+			</p>
+
 			<button class="acao-admin" id="encerrar-recomendacoes">
 			    Encerrar e sortear
 			</button>
-
 		</section>
+
 
 
 		<section class="resultado-sorteio">
 		    <h2>LIVRO SORTEADO</h2>
 
 		    <article>
-		        <h3>As Ondas</h3>
-		        <p class="autor">Virginia Woolf</p>
-		        <p class="recomendado">Recomendado por Juniola</p>
+		        <h3 id="sorteio-livro">As Ondas</h3>
+		        <p class="autor" id="sorteio-autor">Virginia Woolf</p>
+		        <p class="recomendado" id="sorteio-recomendado">
+		            Recomendado por Juniola
+		        </p>
 
-		        <p class="observacao">
-		            Escolhi esse porque quero causar sofrimento coletivo
-		            no grupo.
+		        <p class="observacao" id="sorteio-observacao">
+		            Observação fake.
 		        </p>
 		    </article>
+
 		    <button class="acao-admin" id="iniciar-leitura">
-			    Iniciar leitura
-			</button>
+		        Iniciar leitura
+		    </button>
 		</section>
 
 
@@ -72,42 +96,29 @@
 			<h2>Histórico de Leitura</h2>
 			<table>
 				<colgroup>
-			        <col class="col-livro">
-			        <col class="col-autor">
-			        <col class="col-recomendacao">
-			    </colgroup>
-				<thead>
-					<tr>
-						<th>Livro</th>
-						<th>Autor</th>
-						<th>Recomendação</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Livro1</td>
-						<td>Autor1</td>
-						<td>Usuário1</td>
-					</tr>
-					<tr>
-						<td>Livro2</td>
-						<td>Autor2</td>
-						<td>Usuário2</td>
-					</tr>
-					<tr>
-						<td>Livro3</td>
-						<td>Autor3</td>
-						<td>Usuário3</td>
-					</tr>
-				</tbody>
-				
+				    <col class="col-livro">
+				    <col class="col-autor">
+				    <col class="col-recomendacao">
+				    <col class="col-status">
+				</colgroup>
+			    <thead>
+			        <tr>
+			            <th>Livro</th>
+			            <th>Autor</th>
+			            <th>Recomendado por</th>
+			            <th>Status</th>
+			        </tr>
+			    </thead>
+
+			    <tbody id="historico-lista">
+			    </tbody>
 			</table>
 		</section>
 
 	</main>
 
 	<footer>
-		<a href="https://drive.google.com/drive/folders/1VuzVpt0OhBHss8EiBRnOS0PqotA4nwRO?usp=drive_link" target="_blank">NeoAlexandria</a>
+		<a href="https://drive.google.com/drive/folders/1VuzVpt0OhBHss8EiBRnOS0PqotA4nwRO?usp=drive_link" target="_blank">NeoAlexandria Link</a>
 	</footer>
 	
 
