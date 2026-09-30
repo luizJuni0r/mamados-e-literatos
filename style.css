@@ -16,6 +16,12 @@
     visibility: hidden;
 }
 
+.em-leitura,
+.form-recomendacao,
+.resultado-sorteio {
+    display: none;
+}
+
 body {
 	background: var(--background);
 	color: var(--text);

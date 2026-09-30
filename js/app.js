@@ -35,6 +35,7 @@ if (!data.session) {
 
 
 
+
 const { data: perfil, error: erroPerfil } = await db
     .from("perfis")
     .select("nickname, role")
@@ -47,6 +48,12 @@ if (perfil.role === "admin") {
     iniciarLeitura.style.display = "block";
 }
 
+
+
+
+
+
+
 const { data: dominio, error: erroDominio } = await db
     .from("dominio")
     .select("estado_clube")
@@ -54,4 +61,12 @@ const { data: dominio, error: erroDominio } = await db
 
 console.log(dominio);
 console.log(erroDominio);
+
+if (dominio.estado_clube === "recomendacao") {
+    secaoRecomendacao.style.display = "block";
+} else if (dominio.estado_clube === "sorteio") {
+    secaoSorteio.style.display = "block";
+} else if (dominio.estado_clube === "leitura") {
+    secaoLeitura.style.display = "block";
+}
 
