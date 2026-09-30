@@ -5,6 +5,7 @@ const nomeAutor = document.getElementById("nome-autor");
 const observacoes = document.getElementById("observacoes");
 const formRecomendacao = document.getElementById("form-formulario-recomendacao");
 const iniciarLeitura = document.getElementById("iniciar-leitura");
+const encerrarRecomendacoes = document.getElementById("encerrar-recomendacoes");
 
 const secaoRecomendacao = document.querySelector(".form-recomendacao");
 const secaoSorteio = document.querySelector(".resultado-sorteio");
@@ -46,6 +47,7 @@ console.log(erroPerfil);
 
 if (perfil.role === "admin") {
     iniciarLeitura.style.display = "block";
+    encerrarRecomendacoes.style.display = "block";
 }
 
 
