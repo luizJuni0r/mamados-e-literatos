@@ -6,9 +6,10 @@ const senha = document.getElementById("senha");
 const mensagemLogin = document.getElementById("mensagem-login");
 
 formLogin.addEventListener("submit", async function (event) {
-    //console.log("submit aconteceu");
 
-    event.preventDefault();
+	event.preventDefault();
+
+	mensagemLogin.textContent = "";
 
     const resultado = await db.auth.signInWithPassword({
         email: email.value,
