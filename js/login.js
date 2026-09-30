@@ -17,8 +17,10 @@ formLogin.addEventListener("submit", async function (event) {
     });
 
     if (resultado.error) {
-    	mensagemLogin.textContent = "Email ou senha incorretos.";
-	};
+    mensagemLogin.textContent = "Email ou senha incorretos.";
+	} else {
+	    window.location.href = "index.html";
+	}
 
     console.log(resultado);
 });
