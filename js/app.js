@@ -28,6 +28,9 @@ if (!data.session) {
 }
 
 
+        const { data: sessao } = await db.auth.getSession();
+
+        console.log("UUID logado:", sessao.session.user.id);
 
 
 const { data: perfil, error: erroPerfil } = await db
