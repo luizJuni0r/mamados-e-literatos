@@ -12,6 +12,9 @@
     box-sizing: border-box;
 }
 
+.autenticando {
+    visibility: hidden;
+}
 
 body {
 	background: var(--background);
