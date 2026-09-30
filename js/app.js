@@ -1,5 +1,6 @@
 import { db } from "./supabase.js";
 
+
 const nomeLivro = document.getElementById("nome-livro");
 const nomeAutor = document.getElementById("nome-autor");
 const observacoes = document.getElementById("observacoes");
@@ -11,22 +12,10 @@ const secaoRecomendacao = document.querySelector(".form-recomendacao");
 const secaoSorteio = document.querySelector(".resultado-sorteio");
 const secaoLeitura = document.querySelector(".em-leitura");
 
+//--------------------obtendo dados
 
-formRecomendacao.addEventListener("submit", async function (event) {
-    event.preventDefault();
 
-    const resultado = await db
-        .from("recomendacoes")
-        .insert({
-            livro: nomeLivro.value,
-            autor: nomeAutor.value,
-            observacoes: observacoes.value
-        });
-
-    console.log(resultado);
-});
-
-const { data } = await db.auth.getSession();
+const { data } = await db.auth.getSession(); //redireciona
 
 if (!data.session) {
     window.location.href = "login.html";
@@ -35,9 +24,7 @@ if (!data.session) {
 }
 
 
-
-
-const { data: perfil, error: erroPerfil } = await db
+const { data: perfil, error: erroPerfil } = await db //obtem o usuário,a role dele e ja mostra o que recisa mostrar
     .from("perfis")
     .select("nickname, role")
     .single();
@@ -53,10 +40,7 @@ if (perfil.role === "admin") {
 
 
 
-
-
-
-const { data: dominio, error: erroDominio } = await db
+const { data: dominio, error: erroDominio } = await db // obtem o estado do clube com as regras de dominio
     .from("dominio")
     .select("estado_clube")
     .single();
@@ -72,3 +56,21 @@ if (dominio.estado_clube === "recomendacao") {
     secaoLeitura.style.display = "block";
 }
 
+
+
+
+//------------Eventos
+
+formRecomendacao.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const resultado = await db
+        .from("recomendacoes")
+        .insert({
+            livro: nomeLivro.value,
+            autor: nomeAutor.value,
+            observacoes: observacoes.value
+        });
+
+    console.log(resultado);
+});
