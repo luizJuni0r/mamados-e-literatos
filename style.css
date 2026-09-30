@@ -130,10 +130,8 @@ header::after {
 .form-recomendacao button {
     background-color: transparent;
     color: var(--primary);
-
     border: 1px solid var(--primary);
     border-radius: 0.4rem;
-
     padding: 0.75rem;
     font-weight: bold;
     cursor: pointer;
