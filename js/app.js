@@ -6,6 +6,11 @@ const observacoes = document.getElementById("observacoes");
 const formRecomendacao = document.getElementById("form-formulario-recomendacao");
 const iniciarLeitura = document.getElementById("iniciar-leitura");
 
+const secaoRecomendacao = document.querySelector(".form-recomendacao");
+const secaoSorteio = document.querySelector(".resultado-sorteio");
+const secaoLeitura = document.querySelector(".em-leitura");
+
+
 formRecomendacao.addEventListener("submit", async function (event) {
     event.preventDefault();
 
@@ -41,3 +46,12 @@ console.log(erroPerfil);
 if (perfil.role === "admin") {
     iniciarLeitura.style.display = "block";
 }
+
+const { data: dominio, error: erroDominio } = await db
+    .from("dominio")
+    .select("estado_clube")
+    .single();
+
+console.log(dominio);
+console.log(erroDominio);
+
