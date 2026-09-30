@@ -21,6 +21,4 @@ formLogin.addEventListener("submit", async function (event) {
 	} else {
 	    window.location.href = "index.html";
 	}
-
-    console.log(resultado);
 });

@@ -20,6 +20,7 @@ const droparLeitura = document.getElementById("dropar-leitura");
 const historicoLista = document.getElementById("historico-lista");
 const tituloLeitura = document.getElementById("titulo-leitura");
 const abrirRecomendacoes = document.getElementById("abrir-recomendacoes");
+const sair = document.getElementById("sair");
 
 const secaoRecomendacao = document.querySelector(".form-recomendacao");
 const secaoSorteio = document.querySelector(".resultado-sorteio");
@@ -32,34 +33,38 @@ const { data } = await db.auth.getSession(); //redireciona
 
 if (!data.session) {
     window.location.href = "login.html";
-} else {
-    document.body.classList.remove("autenticando");;
+    throw new Error("Sessão não encontrada.");
 }
+
+document.body.classList.remove("autenticando");
 
 
 const { data: perfil, error: erroPerfil } = await db //obtem o usuário,a role dele e ja mostra o que recisa mostrar
     .from("perfis")
     .select("nickname, role")
+    .eq("id", data.session.user.id)
     .single();
-    console.log(perfil);
-    console.log(erroPerfil);
+
+    if (erroPerfil || !perfil) {
+        console.log(erroPerfil);
+        throw new Error("Não foi possível carregar o perfil.");
+    }
 
 //regras de visibilidade para o admin
 if (perfil.role === "admin") {
     iniciarLeitura.style.display = "block";
     encerrarRecomendacoes.style.display = "block";
-}
-
-
-
+}   
 
 const { data: dominio, error: erroDominio } = await db // obtem o estado do clube com as regras de dominio
     .from("dominio")
     .select("id, leitura_atual, estado_clube")
     .single();
 
-console.log(dominio);
-console.log(erroDominio);
+    if (erroDominio || !dominio) {
+        console.log(erroDominio);
+        throw new Error("Não foi possível carregar o domínio.");
+    }
 
 if (dominio.estado_clube === "recomendacao") { //Caso estado recomendação
     const { data: minhaRecomendacao, error: erroMinhaRecomendacao } = await db
@@ -75,7 +80,6 @@ if (dominio.estado_clube === "recomendacao") { //Caso estado recomendação
         .order("finalizado_em", { ascending: false })
         .limit(1)
         .maybeSingle();
-    console.log(erroUltimaLeitura);
 
     const fuiUltimoRecomendador =
     ultimaLeitura?.recomendado_por === data.session.user.id;
@@ -93,9 +97,6 @@ if (dominio.estado_clube === "recomendacao") { //Caso estado recomendação
         formRecomendacao.style.display = "flex";
     }
     secaoRecomendacao.style.display = "block";
-    console.log("Última leitura:", ultimaLeitura);
-    console.log("Fui último recomendador:", fuiUltimoRecomendador);
-    console.log(erroMinhaRecomendacao);
 
 } else if (dominio.estado_clube === "sorteio") { //caso estado sorteio
     const { data: recomendacaoSorteada, error: erroSorteio } = await db
@@ -112,8 +113,6 @@ if (dominio.estado_clube === "recomendacao") { //Caso estado recomendação
         .eq("sorteado", true)
         .single();
 
-    console.log(recomendacaoSorteada);
-    console.log(erroSorteio);
 
     // depois vamos preencher os elementos aqui
 
@@ -192,7 +191,7 @@ if (dominio.estado_clube === "recomendacao") { //Caso estado recomendação
     }
 }
 
- //BUSCA DOS DADOS HISTÓRICOS
+// BUSCA DOS DADOS HISTÓRICOS
 const { data: historico, error: erroHistorico } = await db
     .from("historico_leitura")
     .select(`
@@ -207,40 +206,49 @@ const { data: historico, error: erroHistorico } = await db
     .not("finalizado_em", "is", null)
     .order("finalizado_em", { ascending: false });
 
-    console.log(historico);
+if (erroHistorico) {
     console.log(erroHistorico);
+} else {
 
- //montando os históricos obtidos
-historico.forEach(function (leitura) {
-    const linha = document.createElement("tr");
+    // Montando os históricos obtidos
+    historico.forEach(function (leitura) {
+        const linha = document.createElement("tr");
 
-    const livro = document.createElement("td");
-    const autor = document.createElement("td");
-    const recomendado = document.createElement("td");
-    const status = document.createElement("td");
+        const livro = document.createElement("td");
+        const autor = document.createElement("td");
+        const recomendado = document.createElement("td");
+        const status = document.createElement("td");
 
-    livro.textContent = leitura.livro;
-    autor.textContent = leitura.autor;
-    recomendado.textContent = leitura.perfis?.nickname ?? "Usuário";
-    if (leitura.status === "concluido") {
-        status.textContent = "Concluído";
-    } else if (leitura.status === "dropado") {
-        status.textContent = "Dropado";
+        livro.textContent = leitura.livro;
+        autor.textContent = leitura.autor;
+        recomendado.textContent =
+            leitura.perfis?.nickname ?? "Usuário";
+
+        if (leitura.status === "concluido") {
+            status.textContent = "Concluído";
+        } else if (leitura.status === "dropado") {
+            status.textContent = "Dropado";
+        }
+
+        linha.appendChild(livro);
+        linha.appendChild(autor);
+        linha.appendChild(recomendado);
+        linha.appendChild(status);
+
+        historicoLista.appendChild(linha);
+    });
 }
-
-    linha.appendChild(livro);
-    linha.appendChild(autor);
-    linha.appendChild(recomendado);
-    linha.appendChild(status);
-
-    historicoLista.appendChild(linha);
-});
 
 
 //------------Eventos
 
 formRecomendacao.addEventListener("submit", async function (event) {
     event.preventDefault();
+
+    const botaoEnviar =
+        formRecomendacao.querySelector('button[type="submit"]');
+
+    botaoEnviar.disabled = true;
 
     const resultado = await db
         .from("recomendacoes")
@@ -251,16 +259,20 @@ formRecomendacao.addEventListener("submit", async function (event) {
             recomendado_por: data.session.user.id
         });
 
-    console.log(resultado);
-    if (!resultado.error) {
-        formRecomendacao.reset();
-        formRecomendacao.style.display = "none";
-        mensagemRecomendacao.style.display = "block";
+    if (resultado.error) {
+        console.log(resultado.error);
+        botaoEnviar.disabled = false;
+        return;
     }
+
+    formRecomendacao.reset();
+    formRecomendacao.style.display = "none";
+    mensagemRecomendacao.style.display = "block";
 });
 
 
 encerrarRecomendacoes.addEventListener("click", async function () {
+    encerrarRecomendacoes.disabled = true;
 
     const { data: recomendacoes, error } = await db
         .from("recomendacoes")
@@ -268,13 +280,13 @@ encerrarRecomendacoes.addEventListener("click", async function () {
 
     if (error) {
         console.log(error);
+        encerrarRecomendacoes.disabled = false;
         return;
     }
 
-    console.log("Recomendações:", recomendacoes);
-
     if (recomendacoes.length === 0) {
         console.log("Não há recomendações para sortear.");
+        encerrarRecomendacoes.disabled = false;
         return;
     }
 
@@ -284,8 +296,6 @@ encerrarRecomendacoes.addEventListener("click", async function () {
 
     const recomendacaoSorteada = recomendacoes[indiceSorteado];
 
-    console.log("Sorteada:", recomendacaoSorteada);
-
     const resultadoSorteio = await db
         .from("recomendacoes")
         .update({ sorteado: true })
@@ -293,9 +303,9 @@ encerrarRecomendacoes.addEventListener("click", async function () {
 
     if (resultadoSorteio.error) {
         console.log(resultadoSorteio.error);
+        encerrarRecomendacoes.disabled = false;
         return;
     }
-
 
     const resultadoDominio = await db
         .from("dominio")
@@ -307,6 +317,7 @@ encerrarRecomendacoes.addEventListener("click", async function () {
 
     if (resultadoDominio.error) {
         console.log(resultadoDominio.error);
+        encerrarRecomendacoes.disabled = false;
         return;
     }
 
@@ -314,6 +325,7 @@ encerrarRecomendacoes.addEventListener("click", async function () {
 });
 
 iniciarLeitura.addEventListener("click", async function () {
+    iniciarLeitura.disabled = true;
 
     const { data: sorteada, error: erroSorteada } = await db
         .from("recomendacoes")
@@ -323,6 +335,7 @@ iniciarLeitura.addEventListener("click", async function () {
 
     if (erroSorteada) {
         console.log(erroSorteada);
+        iniciarLeitura.disabled = false;
         return;
     }
 
@@ -341,10 +354,9 @@ iniciarLeitura.addEventListener("click", async function () {
 
     if (erroNovaLeitura) {
         console.log(erroNovaLeitura);
+        iniciarLeitura.disabled = false;
         return;
     }
-
-    console.log("Leitura criada:", novaLeitura);
 
     const resultadoDominio = await db
         .from("dominio")
@@ -357,6 +369,7 @@ iniciarLeitura.addEventListener("click", async function () {
 
     if (resultadoDominio.error) {
         console.log(resultadoDominio.error);
+        iniciarLeitura.disabled = false;
         return;
     }
 
@@ -364,6 +377,7 @@ iniciarLeitura.addEventListener("click", async function () {
 });
 
 concluirLeitura.addEventListener("click", async function () {
+    concluirLeitura.disabled = true;
 
     const resultado = await db
         .from("historico_leitura")
@@ -375,6 +389,7 @@ concluirLeitura.addEventListener("click", async function () {
 
     if (resultado.error) {
         console.log(resultado.error);
+        concluirLeitura.disabled = false;
         return;
     }
 
@@ -388,15 +403,16 @@ concluirLeitura.addEventListener("click", async function () {
 
     if (resultadoDominio.error) {
         console.log(resultadoDominio.error);
+        concluirLeitura.disabled = false;
         return;
     }
 
     window.location.reload();
-
-    console.log("Leitura concluída.");
 });
 
+
 droparLeitura.addEventListener("click", async function () {
+    droparLeitura.disabled = true;
 
     const resultado = await db
         .from("historico_leitura")
@@ -408,6 +424,7 @@ droparLeitura.addEventListener("click", async function () {
 
     if (resultado.error) {
         console.log(resultado.error);
+        droparLeitura.disabled = false;
         return;
     }
 
@@ -421,13 +438,16 @@ droparLeitura.addEventListener("click", async function () {
 
     if (resultadoDominio.error) {
         console.log(resultadoDominio.error);
+        droparLeitura.disabled = false;
         return;
     }
 
     window.location.reload();
 });
 
+
 abrirRecomendacoes.addEventListener("click", async function () {
+    abrirRecomendacoes.disabled = true;
 
     const resultadoDelete = await db
         .from("recomendacoes")
@@ -436,10 +456,9 @@ abrirRecomendacoes.addEventListener("click", async function () {
 
     if (resultadoDelete.error) {
         console.log(resultadoDelete.error);
+        abrirRecomendacoes.disabled = false;
         return;
     }
-
-    console.log("Recomendações anteriores apagadas.");
 
     const resultadoDominio = await db
         .from("dominio")
@@ -452,8 +471,20 @@ abrirRecomendacoes.addEventListener("click", async function () {
 
     if (resultadoDominio.error) {
         console.log(resultadoDominio.error);
+        abrirRecomendacoes.disabled = false;
         return;
     }
 
     window.location.reload();
+});
+
+sair.addEventListener("click", async function () {
+    const { error } = await db.auth.signOut();
+
+    if (error) {
+        console.log(error);
+        return;
+    }
+
+    window.location.href = "login.html";
 });
