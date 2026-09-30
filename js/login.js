@@ -5,6 +5,8 @@ const email = document.getElementById("email");
 const senha = document.getElementById("senha");
 
 formLogin.addEventListener("submit", async function (event) {
+    console.log("submit aconteceu");
+
     event.preventDefault();
 
     const resultado = await db.auth.signInWithPassword({
