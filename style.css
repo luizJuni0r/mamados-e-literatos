@@ -226,6 +226,12 @@ footer {
 	border-radius: 0.4rem;
 }
 
+#mensagem-login {
+    min-height: 1rem;
+    margin: 0;
+    font-size: .8rem;
+}
+
 .login button {
     background-color: transparent;
     color: var(--primary);
