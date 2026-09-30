@@ -26,3 +26,14 @@ if (!data.session) {
 } else {
     document.body.classList.remove("autenticando");;
 }
+
+
+
+
+const { data: perfil, error: erroPerfil } = await db
+    .from("perfis")
+    .select("nickname, role")
+    .single();
+
+console.log(perfil);
+console.log(erroPerfil);
