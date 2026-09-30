@@ -24,5 +24,5 @@ const { data } = await db.auth.getSession();
 if (!data.session) {
     window.location.href = "login.html";
 } else {
-    document.querySelector(".app").classList.remove("autenticando");
+    document.body.classList.remove("autenticando");;
 }
